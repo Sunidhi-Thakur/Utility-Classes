@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parentLayout"
+    android:padding="24dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/toastButton"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/show_toast"
+        android:layout_margin="5dp"/>
+
+    <Button
+        android:id="@+id/dialogButton"
+        android:layout_below="@id/toastButton"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/show_dialog"
+        android:layout_margin="5dp"/>
+
+    <Button
+        android:id="@+id/messageButton"
+        android:layout_below="@id/dialogButton"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/show_message"
+        android:layout_margin="5dp"/>
+
+    <Button
+        android:id="@+id/actionButton"
+        android:layout_below="@id/messageButton"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/show_action"
+        android:layout_margin="5dp"/>
+
+    <Button
+        android:id="@+id/shareButton"
+        android:layout_below="@id/actionButton"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/share"
+        android:layout_margin="5dp"/>
+
+    <Button
+        android:id="@+id/rateButton"
+        android:layout_below="@id/shareButton"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rate"
+        android:layout_margin="5dp"/>
+
+    <Button
+        android:id="@+id/topSnack"
+        android:layout_below="@id/rateButton"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/top_snack"
+        android:layout_margin="5dp"/>
+
+
+</RelativeLayout>

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Utility Kotlin</string>
+    <string name="show_toast">Show Toast</string>
+    <string name="show_dialog">SHOW DIALOG</string>
+    <string name="show_message">Show Message</string>
+    <string name="show_action">SHOW ACTION</string>
+    <string name="share">SHARE</string>
+    <string name="rate">Rate App</string>
+    <string name="top_snack">Snackbar from Top</string>
+</resources>

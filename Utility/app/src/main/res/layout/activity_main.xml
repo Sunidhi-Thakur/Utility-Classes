@@ -8,11 +8,54 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enter_otp"
+        android:textColor="@color/black"
+        android:layout_marginBottom="8dp"
+        android:layout_centerHorizontal="true"/>
+
+
+    <EditText
+        android:id="@+id/otpField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/enter_otp"
+        android:layout_below="@id/tv"
+        android:layout_centerHorizontal="true"
+        android:importantForAutofill="no"
+        android:layout_marginBottom="24dp"/>
+
+    <Button
+        android:id="@+id/submitOTP"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/otpField"
+        android:text="@string/submit"
+        android:layout_margin="5dp"/>
+
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        android:layout_below="@id/submitOTP"
+        android:layout_marginVertical="24dp"/>
+
+
+
     <Button
         android:id="@+id/toastButton"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/divider"
         android:text="@string/show_toast"
         android:layout_margin="5dp"/>
 
@@ -69,6 +112,5 @@
         android:layout_height="wrap_content"
         android:text="@string/top_snack"
         android:layout_margin="5dp"/>
-
 
 </RelativeLayout>

@@ -1,18 +1,33 @@
 package com.sunidhi.utility.util;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
+import com.google.android.gms.auth.api.phone.SmsRetriever;
+import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.common.api.Status;
 import com.google.android.material.snackbar.Snackbar;
 
-public class MyUtil {
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class MyUtil extends BroadcastReceiver {
+
+    private static final int REQ_USER_CONSENT = 200;
+    public static SmsBroadcastListener smsBroadcastListener;
 
     /**
      * Toast message
@@ -33,14 +48,10 @@ public class MyUtil {
         builder.setMessage(msg);
         builder.setCancelable(false);
         builder.setPositiveButton(positive,
-                (dialog, which) -> {
-                    printToast(context, positive);
-                });
+                (dialog, which) -> printToast(context, positive));
 
         builder.setNegativeButton(negative,
-                (dialog, which) -> {
-                    dialog.cancel();
-                });
+                (dialog, which) -> dialog.cancel());
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
@@ -67,7 +78,6 @@ public class MyUtil {
 
     }
 
-
     private static class MyActionListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -78,16 +88,15 @@ public class MyUtil {
     /**
      * Snackbar from top
      */
-    public static void topSnackbar(View v, String msg, String actionMsg){
+    public static void topSnackbar(View v, String msg, String actionMsg) {
         Snackbar snack = Snackbar.make(v, msg, Snackbar.LENGTH_LONG);
         View view = snack.getView();
         snack.setAction(actionMsg, new MyActionListener());
-        FrameLayout.LayoutParams params =(FrameLayout.LayoutParams)view.getLayoutParams();
+        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
         params.gravity = Gravity.TOP;
         view.setLayoutParams(params);
         snack.show();
     }
-
 
 
     /**
@@ -111,5 +120,59 @@ public class MyUtil {
         } catch (android.content.ActivityNotFoundException e) {
             return new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName));
         }
+    }
+
+    /**
+     * Fetch OTP
+     */
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (intent.getAction().equals(SmsRetriever.SMS_RETRIEVED_ACTION)) {
+            Bundle extras = intent.getExtras();
+            Status smsReceiverStatus = (Status) extras.get(SmsRetriever.EXTRA_STATUS);
+            switch (smsReceiverStatus.getStatusCode()) {
+                case CommonStatusCodes
+                        .SUCCESS:
+                    Intent messageIntent = extras.getParcelable(SmsRetriever.EXTRA_CONSENT_INTENT);
+                    smsBroadcastListener.onSuccess(messageIntent);
+                    break;
+                case CommonStatusCodes.TIMEOUT:
+                    smsBroadcastListener.onFailure();
+                    break;
+            }
+        }
+    }
+
+    public static void startSmartUserConsent(Activity activity) {
+        SmsRetrieverClient client = SmsRetriever.getClient(activity);
+        client.startSmsUserConsent(null);
+    }
+
+    public static String returnOtp(int requestCode, int resultCode, @Nullable Intent data, int RESULT_OK) {
+        String otp = "";
+        if (requestCode == REQ_USER_CONSENT) {
+            if (resultCode == RESULT_OK && data != null) {
+                String message = data.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE);
+                otp = getOtpFromMessage(message);
+            }
+        }
+        return otp;
+    }
+
+    private static String getOtpFromMessage(String message) {
+        Pattern otpPattern = Pattern.compile("(|^)\\d{4}");
+        Matcher matcher = otpPattern.matcher(message);
+        if (matcher.find()) {
+            return matcher.group(0);
+        }
+        return "";
+    }
+
+    //Interface
+    public interface SmsBroadcastListener {
+        void onSuccess(Intent intent);
+
+        void onFailure();
     }
 }

@@ -7,4 +7,7 @@
     <string name="share">SHARE</string>
     <string name="rate">Rate App</string>
     <string name="top_snack">Snackbar from Top</string>
+    <string name="enter_otp">Enter OTP</string>
+    <string name="fetch">FETCH OTP</string>
+    <string name="submit">Submit</string>
 </resources>

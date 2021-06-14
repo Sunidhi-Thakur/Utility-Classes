@@ -1,15 +1,21 @@
 package com.sunidhi.utility;
 
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.auth.api.phone.SmsRetriever;
 import com.sunidhi.utility.databinding.ActivityMainBinding;
 import com.sunidhi.utility.util.MyUtil;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private static final int REQ_USER_CONSENT = 200;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,5 +50,36 @@ public class MainActivity extends AppCompatActivity {
 
         //Rate App
         binding.rateButton.setOnClickListener(v -> startActivity(MyUtil.reviewApp(this)));
+
+        //FetchOTP
+        MyUtil.startSmartUserConsent(this);
+        registerBroadcastReceiver();
+        binding.submitOTP.setOnClickListener(v->{
+                Intent intent = new Intent(this, Activity2.class);
+                startActivity(intent);
+
+        });
     }
+
+//Fetch OTP
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        String otp = MyUtil.returnOtp(requestCode, resultCode, data, RESULT_OK);
+        binding.otpField.setText(otp);
+            }
+
+    private void registerBroadcastReceiver() {
+            MyUtil.smsBroadcastListener = new MyUtil.SmsBroadcastListener() {
+                @Override
+                public void onSuccess(Intent intent) {
+                    startActivityForResult(intent, REQ_USER_CONSENT);
+                }
+                @Override
+                public void onFailure() {
+                }
+            };
+            IntentFilter intentFilter = new IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION);
+            registerReceiver(new MyUtil(), intentFilter);
+        }
 }

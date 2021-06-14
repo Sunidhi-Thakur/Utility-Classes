@@ -10,4 +10,10 @@
     <string name="enter_otp">Enter OTP</string>
     <string name="fetch">FETCH OTP</string>
     <string name="submit">Submit</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="enter_email">E-Mail</string>
+    <string name="phone">Phone No.</string>
+    <string name="enter_password">Password</string>
+    <string name="aadhar">Aadhar ID</string>
+    <string name="pan">PAN ID</string>
 </resources>

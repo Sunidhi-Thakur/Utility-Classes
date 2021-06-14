@@ -175,4 +175,70 @@ public class MyUtil extends BroadcastReceiver {
 
         void onFailure();
     }
+
+    /**
+     * Validation
+     */
+
+    //Validate Name
+    public static boolean validateName(String name){
+        Pattern digit = Pattern.compile("[0-9]");
+        Pattern special = Pattern.compile ("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
+
+        Matcher hasDigit = digit.matcher(name);
+        Matcher hasSpecial = special.matcher(name);
+
+        return name.length() > 2 && !hasDigit.find() && !hasSpecial.find();
+    }
+
+    public static boolean validatePassword(String password)
+    {
+
+        if(password.length()>=8)
+        {
+            Pattern letter = Pattern.compile("[a-zA-z]");
+            Pattern digit = Pattern.compile("[0-9]");
+            Pattern special = Pattern.compile ("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
+
+            Matcher hasLetter = letter.matcher(password);
+            Matcher hasDigit = digit.matcher(password);
+            Matcher hasSpecial = special.matcher(password);
+
+            return hasLetter.find() && hasDigit.find() && hasSpecial.find();
+
+        }
+        else
+            return false;
+
+    }
+
+    public static boolean validateEmail(String email){
+        String regex = "^(.+)@(.+)$";
+        Pattern pattern = Pattern.compile(regex);
+        return pattern.matcher(email).find();
+    }
+
+    public static boolean validatePhoneNumber(String number) {
+        Pattern pattern = Pattern.compile("^\\d{10}$");
+        Matcher matcher = pattern.matcher(number);
+        return matcher.matches();
+    }
+
+    public static boolean validateAadharNumber(String str)
+    {
+        String regex = "^[2-9]{1}[0-9]{3}\\s[0-9]{4}\\s[0-9]{4}$";
+        Pattern p = Pattern.compile(regex);
+        if (str == null) {
+            return false;
+        }
+        Matcher m = p.matcher(str);
+        return m.matches();
+    }
+
+    public static boolean validatePANCard(String str){
+        Pattern pattern = Pattern.compile("[A-Z]{5}[0-9]{4}[A-Z]{1}");
+
+        Matcher matcher = pattern.matcher(str);
+        return matcher.matches();
+    }
 }

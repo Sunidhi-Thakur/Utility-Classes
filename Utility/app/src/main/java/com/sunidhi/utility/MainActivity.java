@@ -3,6 +3,8 @@ package com.sunidhi.utility;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private static final int REQ_USER_CONSENT = 200;
+
 
 
     @Override
@@ -59,6 +62,130 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
 
         });
+
+        /**
+         * Validation
+         */
+        //Name
+        binding.name.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                String name = binding.name.getText().toString();
+                if(!MyUtil.validateName(name)){
+                    binding.name.setError("Invalid name");
+                }
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // other stuffs
+            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // other stuffs
+            }
+        });
+
+
+        //E-Mail
+        binding.email.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                String email = binding.email.getText().toString();
+                if(!MyUtil.validateEmail(email)){
+                    binding.email.setError("Invalid email");
+                }
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // other stuffs
+            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // other stuffs
+            }
+        });
+
+
+        //Password
+        binding.password.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                MyUtil.topSnackbar(binding.parentLayout,
+                        "Password must be 8 characters long and contain letters, digits and special character",
+                        "OK");
+            }
+            });
+
+        binding.password.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                String password = binding.password.getText().toString();
+                if(!MyUtil.validatePassword(password)){
+                    binding.password.setError("Invalid Password");
+
+                }
+
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // other stuffs
+            }
+        });
+
+
+        //Phone
+        binding.phone.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                String phone = binding.phone.getText().toString();
+                if(!MyUtil.validatePhoneNumber(phone)){
+                    binding.phone.setError( "Invalid phone number");
+                }
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // other stuffs
+            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // other stuffs
+            }
+        });
+
+
+        //Aadhar Card
+        binding.aadhar.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                MyUtil.topSnackbar(binding.parentLayout,
+                        "Add space after every 4 digit",
+                        "OK");
+            }
+        });
+        binding.aadhar.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                String aadhar = binding.aadhar.getText().toString();
+                if(!MyUtil.validateAadharNumber(aadhar)){
+                    binding.aadhar.setError("Invalid ID");
+                }
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // other stuffs
+            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // other stuffs
+            }
+        });
+
+
+        //PAN Card
+        binding.pan
+                .addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+
+                String pan = binding.pan.getText().toString();
+                if(!MyUtil.validatePANCard(pan)){
+                    binding.pan.setError("Invalid ID");
+                }
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // other stuffs
+            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // other stuffs
+            }
+        });
+
     }
 
 //Fetch OTP
@@ -82,4 +209,6 @@ public class MainActivity extends AppCompatActivity {
             IntentFilter intentFilter = new IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION);
             registerReceiver(new MyUtil(), intentFilter);
         }
+
+
 }

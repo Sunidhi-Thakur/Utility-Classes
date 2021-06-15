@@ -5,6 +5,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,13 +19,19 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private static final int REQ_USER_CONSENT = 200;
 
-
+    public static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        AppSignatureHashHelper appSignatureHashHelper = new AppSignatureHashHelper(this);
+
+        // This code requires one time to get Hash keys do comment and share key
+        Log.i(TAG, "HashKey: " + appSignatureHashHelper.getAppSignatures().get(0));
+
 
         //Toast
         binding.toastButton.setOnClickListener(v -> MyUtil.printToast(this, "This is my custom Toast"));
